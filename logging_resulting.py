@@ -5,7 +5,7 @@ phases_name = {'фаза 1': 'Фаза A', 'фаза 2': 'Фаза B', 'фаза
 
 
 def limiter(df, max_v, min_v, period):
-    high = df[(df['U_Max'] > max_v) & (df['Period'] == period) & (df['Power'] == 1)].sort_values(by='U_Max',
+    high = df[(df['U_Max'] > max_v) & (df['Period'] == period) & (df['Power'] == 0)].sort_values(by='U_Max',
                                                                           ascending=False)  # ограничение напряжения и сортировка
     low = df[((df['U_Min'] < min_v) & (df['U_Min'] > 150)) & (df['Period'] == period) & (df['Power'] == 1)].sort_values(by='U_Min', ascending=True)
     high_amount = high.shape[0]  # количество отклонений

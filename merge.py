@@ -10,7 +10,7 @@ def transform(file, t):
                        names=['Date and time',
                               f'{t}_Value', f'{t}_Min', f'{t}_Max'],
                        delimiter=';', encoding='utf-8', decimal=",")
-    data['Date and time'] = pd.to_datetime(data['Date and time'], errors='coerce')
+    data['Date and time'] = pd.to_datetime(data['Date and time'], errors='coerce', format='%d.%m.%Y %H:%M:%S') 
     data = data.loc[(data['Date and time'] >= '2022-09-01 00:00:00') & (
             data['Date and time'] < '2022-10-26 00:00:00')]  # здесь можно ограничить период
 
@@ -29,6 +29,8 @@ def merged(voltage, cur, out):
     data[['Date and time', 'U_Value', 'U_Min', 'U_Max', 'I_Value', 'I_Min', 'I_Max']].to_csv(out, index=False)
 
 
-def finder_the_same_phases(meas, dire):
-    [merged(Path(dire, meas), Path(dire, file), Path(dire, f'Общее_{phase}.csv')) for phase in phases_name for file in
-     os.listdir(dire) if 'Сила' and phase in file]
+def finder_the_same_phases(directory, phase):
+    voltage_meas = [i for i in os.listdir(directory) if f'Напряжение {phase}' in i]
+    current_meas = [i for i in os.listdir(directory) if f'Сила тока {phase}' in i]
+    merged(Path(directory, *voltage_meas), Path(directory, *current_meas), Path(directory, f'Общее_{phase}.csv'))
+
