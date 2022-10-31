@@ -5,7 +5,7 @@ phases_name = {'фаза 1': 'Фаза A', 'фаза 2': 'Фаза B', 'фаза
 
 
 def limiter(df, max_v, min_v, period):
-    high = df[(df['U_Max'] > max_v) & (df['Period'] == period) & (df['Power'] == 0)].sort_values(by='U_Max',
+    high = df[(df['U_Max'] > max_v) & (df['Period'] == period) & (df['Power'] == 1)].sort_values(by='U_Max',
                                                                           ascending=False)  # ограничение напряжения и сортировка
     low = df[((df['U_Min'] < min_v) & (df['U_Min'] > 150)) & (df['Period'] == period) & (df['Power'] == 1)].sort_values(by='U_Min', ascending=True)
     high_amount = high.shape[0]  # количество отклонений
@@ -20,7 +20,7 @@ def file_writer(meter, name, home, input, obj):
                        delimiter=',', encoding='utf-8', decimal=".")
 
     data['Date and time'] = pd.to_datetime(data['Date and time'], errors='coerce')
-    data['Power'] = [(1 if (i and i > 0) else 0) for i in data["I_Min"]]
+    data['Power'] = [(1 if (i and i > 0.1) else 0) for i in data["I_Min"]]
     data['Period'] = [('внерабочее время' if i not in range(7, 19) else 'рабочее время')
                       for i in data["Date and time"].dt.hour]  # рабочее/нерабочее время
 

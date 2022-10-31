@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-cat = Path('F:\Brytkov', 'Own', 'PROG', 'pars', 'RTS', 'project', 'files', 'objects', '_Результат')
+cat = Path('F:\Brytkov', 'Own', 'PROG', 'pars', 'RTS', 'project', 'files', 'objects', '_Результат', 'bez nagr')
 
 data = pd.read_csv(f'{cat}\\_Итого.csv', delimiter=';', encoding='utf-8')
 
